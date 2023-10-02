@@ -1,2 +1,2 @@
-#!/bin/bas
-find . -mindepth 1 -type d | wc -l
+#!/bin/bash
+count=$(find . -mindepth 1 -type d | wc -l)
