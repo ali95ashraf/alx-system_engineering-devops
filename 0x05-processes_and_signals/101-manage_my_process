@@ -1,0 +1,29 @@
+#!/bin/bash
+
+case "$1" in
+  start)
+    if ps -p "$(cat /var/run/my_process.pid 2>/dev/null)" >/dev/null 2>&1; then
+      echo "manage_my_process already running"
+    else
+      ./manage_my_process &
+      echo "$! > /var/run/my_process.pid"
+      echo "manage_my_process started"
+    fi
+    ;;
+  stop)
+    if ps -p "$(cat /var/run/my_process.pid 2>/dev/null)" >/dev/null 2>&1; then
+      kill "$(cat /var/run/my_process.pid)"
+      rm -f /var/run/my_process.pid
+      echo "manage_my_process stopped"
+    else
+      echo "manage_my_process not running"
+    fi
+    ;;
+  restart)
+    ./101-manage_process stop
+    ./101-manage_process start
+    ;;
+  *)
+    echo "Usage: manage_my_process {start|stop|restart}"
+    ;;
+esac
